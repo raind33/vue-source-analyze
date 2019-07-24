@@ -1,6 +1,26 @@
 import Vue from "vue";
 import App from "./App";
 
+let childComp = {
+  template: "<div>{{msg}}</div>",
+  created() {
+    console.log("child created");
+  },
+  mounted() {
+    console.log("child mounted");
+  },
+  data() {
+    return {
+      msg: "Hello Vue"
+    };
+  }
+};
+
+Vue.mixin({
+  created() {
+    console.log("parent created");
+  }
+});
 new Vue({
   el: "#app",
   data() {
@@ -8,19 +28,5 @@ new Vue({
       a: 122
     };
   },
-  render(h) {
-    return h(
-      "div",
-      {
-        attrs: {
-          class: "#app1"
-        }
-      },
-      this.a
-    );
-  },
-  mounted() {
-    console.log(this.a); // 122
-    console.log(this._data.a); // 122
-  }
+  render: h => h(childComp)
 });
